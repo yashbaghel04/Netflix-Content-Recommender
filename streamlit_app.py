@@ -21,20 +21,32 @@ selected_movie= st.selectbox("Select a Movie", movies['title'].values)
 
 # importing a file named "similar"
 similar =pickle.load(open("similar","rb"))
+# def recommend(selected_movie):
+#         index = movies[movies['title'] == selected_movie].index[0]
+
+#         distance = similar[index]
+
+#         movies_list = sorted(list(enumerate(distance)), reverse=True, key=lambda x: x[1])[1:6]
+#         l =[]
+#         duration =[]
+#         year =[]
+#         for j in movies_list:
+#             l.append(movies.iloc[j[0]].title)
+#             duration.append(movies.iloc[j[0]].duration)
+#             year.append(movies.iloc[j[0]].release_year)
+#         return l,duration,year
 def recommend(selected_movie):
-        index = movies[movies['title'] == selected_movie].index[0]
+    index = movies[movies['title'] == selected_movie].index[0]
+    movies_list = similar[index][:5]   #
 
-        distance = similar[index]
+    l, duration, year = [], [], []
+    for j in movies_list:
+        l.append(movies.iloc[j[0]].title)
+        duration.append(movies.iloc[j[0]].duration)
+        year.append(movies.iloc[j[0]].release_year)
+    return l, duration, year
 
-        movies_list = sorted(list(enumerate(distance)), reverse=True, key=lambda x: x[1])[1:6]
-        l =[]
-        duration =[]
-        year =[]
-        for j in movies_list:
-            l.append(movies.iloc[j[0]].title)
-            duration.append(movies.iloc[j[0]].duration)
-            year.append(movies.iloc[j[0]].release_year)
-        return l,duration,year
+
 if st.button("Recommend", type="primary"):
     st.write("#### You have selected:", selected_movie)
     st.write("#### Based on your interest ")
